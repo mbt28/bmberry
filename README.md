@@ -34,9 +34,13 @@ Flash `ibus_pico_bridge.uf2` to the Pico 2.
 
 In `pico/main_pico.c` defaults are:
 
-- `UART0 RX` = **GP1**
-- `UART0 TX` = **GP0** (not used for receive-only)
+- `UART0 RX` = **GP16**
+- `UART0 TX` = **GP17** (not used for receive-only)
 - baud/format: **9600 8E1**
+
+- `I2C1 SDA` = **GP18**
+- `I2C1 SCL` = **GP19**
+- baud: **100khz**
 
 You normally connect I-Bus via a proper transceiver/interface (open-collector to UART-level).
 The Pico code assumes it receives UART-level data.
