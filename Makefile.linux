@@ -1,0 +1,13 @@
+CC ?= gcc
+CFLAGS ?= -O2 -Wall -Wextra -std=gnu11
+LDFLAGS ?=
+
+all: ibus_linux
+
+ibus_linux: main_linux.c ibus_protocol.c ibus_protocol.h
+\t$(CC) $(CFLAGS) -o $@ main_linux.c ibus_protocol.c $(LDFLAGS)
+
+clean:
+\trm -f ibus_linux
+
+.PHONY: all clean
