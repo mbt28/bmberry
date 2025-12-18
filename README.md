@@ -1,9 +1,9 @@
-# I-Bus bridge: Linux + Pico 2 (shared decoder)
+# I/K-Bus bridge: Linux + RPI Pico 2 (shared decoder)
 
 This repo contains a shared BMW I-Bus decoder (`ibus_protocol.c/.h`) with two front-ends:
 
 - **Linux**: reads from UART, sends key events via **uinput** (`main_linux.c`)
-- **Raspberry Pi Pico 2**: reads I-Bus from **UART (9600 8E1)** and exposes a **USB HID keyboard** + **USB CDC serial** for logs (`pico/main_pico.c`)
+- **Raspberry Pi Pico 2**: reads I-Bus from **UART (9600 8E1)** and exposes a **USB HID keyboard** + **USB CDC serial** for logs (`pico/main_pico.c`). It can also interract with Video Module over I2C to enable RGB input. Another PIO program runs on Core1 which converts VGA Horizontal/Vertical Syncs to Composite Sync. 
 
 ## Linux build
 
@@ -55,4 +55,4 @@ cmake .. -DPICO_BOARD=pico2 -DCMAKE_C_FLAGS=\"-DIBUS_PICO_VIDEO_GPIO=2\"
 
 ### Notes
 
-- Pico ignores RTS/CTS flow control by design.
+- More feautures will come. Software is on very early stage but works for testing. Currently it doesnt emulate cd changer but can switch to RGB input when CDC is selected. CDC emulation will come soon. Reverse engineering of IBUS Video Modules: https://github.com/mbt28/IBUS-TV-Modules-RGB-Input
