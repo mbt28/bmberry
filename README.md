@@ -45,7 +45,8 @@ In `pico/main_pico.c` defaults are:
 - `Hsync in` = **GP2**
 - `Vsync in` = **GP3**
 - `Csync Out` = **GP4**
-
+- format: **NTSC 400x240 progressive**
+- 
 You normally connect I-Bus via a proper transceiver/interface (open-collector to UART-level).
 The Pico code assumes it receives UART-level data.
 
