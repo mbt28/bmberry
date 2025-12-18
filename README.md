@@ -42,6 +42,10 @@ In `pico/main_pico.c` defaults are:
 - `I2C1 SCL` = **GP19**
 - baud: **100khz**
 
+- `Hsync in` = **GP2**
+- `Vsync in` = **GP3**
+- `Csync Out` = **GP4**
+
 You normally connect I-Bus via a proper transceiver/interface (open-collector to UART-level).
 The Pico code assumes it receives UART-level data.
 
