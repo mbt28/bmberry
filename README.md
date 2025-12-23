@@ -24,7 +24,7 @@ Build:
 ```bash
 mkdir build-pico
 cd build-pico
-cmake .. -DPICO_BOARD=pico2
+cmake .. -DPICO_BOARD=pico2 -DPICO_SDK_PATH=$HOME/pico-sdk .. -DPICO_PLATFORM=rp2350
 cmake --build . -j
 ```
 
