@@ -275,6 +275,10 @@ static void ibus_i2c_mode_tv(void)
     const uint8_t cmd2[] = { 0x11, 0x73 };
     (void)ibus_i2c_write_bytes(0x45, cmd2, sizeof(cmd2));
 
+	// Shift image to rightest horizontal position.
+    const uint8_t cmd3[] = { 0x03, 0x3F };
+    (void)ibus_i2c_write_bytes(0x45, cmd3, sizeof(cmd3));
+    
     ibus_video_gpio_set(true);
 }
 
