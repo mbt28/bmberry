@@ -257,6 +257,9 @@ void ibus_process_messages(void)
                 } else if (databyte & IBUS_MFL2_BTN_CH_DOWN) {
                     ibus_platform_button_event(IBUS_BTN_IDX_MFL2_CH_DOWN,
                                                released, 0);
+                } else if (databyte & IBUS_BTN_TELEPHONE) {
+                    ibus_platform_button_event(IBUS_BTN_TELEPHONE,
+                                               released, 0);
                 }
 
                 /* TODO: handle answer buttons and other MFL buttons if needed */

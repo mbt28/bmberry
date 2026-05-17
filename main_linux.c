@@ -319,7 +319,8 @@ static int uinput_create(void)
     }
 
     for (i = 0; i < sizeof(headunit_buttons) / sizeof(headunit_buttons[0]); ++i) {
-        if (headunit_buttons[i].key_code != KEY_UNKNOWN) {
+        if (headunit_buttons[i].key_code != KEY_UNKNOWN &&
+            headunit_buttons[i].key_code != RESERVED_BUTTON) {
             if (ioctl(fd, UI_SET_KEYBIT, headunit_buttons[i].key_code) < 0) {
                 TRACE_ERROR("Can't set key bit");
                 close(fd);
@@ -438,7 +439,6 @@ static void print_ibus_message(const uint8_t *msg, uint8_t len)
         return;
 
     uint8_t sender   = msg[IBUS_POS_SENDER];
-    uint8_t length   = msg[IBUS_POS_LENGTH];
     uint8_t receiver = msg[IBUS_POS_RECEIVER];
     uint8_t message  = msg[IBUS_POS_MESSAGE];
     uint8_t data_len = (len > IBUS_MIN_MESSAGE_LEN) ? (len - IBUS_MIN_MESSAGE_LEN) : 0;
@@ -446,10 +446,7 @@ static void print_ibus_message(const uint8_t *msg, uint8_t len)
     /* 1. Hex dump */
     trace_timestamp_prefix();
     for (uint8_t i = 0; i < len; ++i) {
-        if (i < 4 || i == len - 1)
-            fprintf(stdout_fp ? stdout_fp : stdout, " %02x", msg[i]);
-        else
-            fprintf(stdout_fp ? stdout_fp : stdout, "%02x", msg[i]);
+        fprintf(stdout_fp ? stdout_fp : stdout, " %02X", msg[i]);
     }
 
     /* 2. Device / message decoding */
@@ -462,7 +459,7 @@ static void print_ibus_message(const uint8_t *msg, uint8_t len)
         for (uint8_t i = 0; i < data_len; ++i) {
             uint8_t b = msg[IBUS_POS_DATA_START + i];
             if (b < 0x20 || b > 0x7F)
-                fprintf(stdout_fp ? stdout_fp : stdout, "0x%02x ", b);
+                fprintf(stdout_fp ? stdout_fp : stdout, "0x%02X ", b);
             else
                 fputc(b, stdout_fp ? stdout_fp : stdout);
         }
@@ -553,7 +550,7 @@ static void print_help(const char *name)
 {
     fprintf(stderr, "Usage: %s <options>\n", name);
     fprintf(stderr, "  -d <device>   Serial device (mandatory)\n");
-    fprintf(stderr, "  -h <state>    Hijack state: FM/TAPE/AUX\n");
+    fprintf(stderr, "  -h <state>    Hijack state: NONE/FM/TAPE/AUX\n");
     fprintf(stderr, "  -v <switch>   Video input switch: CTS/RTS/GPIO\n");
     fprintf(stderr, "  -t <mask>     Trace level mask (1=function,2=ibus,4=input,8=state)\n");
     fprintf(stderr, "  -f <file>     Trace output file\n");
@@ -586,7 +583,9 @@ int main(int argc, char *argv[])
             break;
         case 'h':
             strncpy(hijack_state_str, optarg, sizeof(hijack_state_str) - 1);
-            if (strcmp(hijack_state_str, "TAPE") == 0)
+            if (strcmp(hijack_state_str, "NONE") == 0)
+                g_hijack_state = IBUS_STATE_UNKNOWN;
+            else if (strcmp(hijack_state_str, "TAPE") == 0)
                 g_hijack_state = IBUS_STATE_TAPE;
             else if (strcmp(hijack_state_str, "AUX") == 0)
                 g_hijack_state = IBUS_STATE_AUX;

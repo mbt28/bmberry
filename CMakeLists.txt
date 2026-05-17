@@ -35,6 +35,12 @@ target_link_libraries(ibus_pico_bridge
     tinyusb_board
 )
 
+if(DEFINED IBUS_PICO_VIDEO_INPUT_GPIO)
+    target_compile_definitions(ibus_pico_bridge PRIVATE
+        IBUS_PICO_VIDEO_INPUT_GPIO=${IBUS_PICO_VIDEO_INPUT_GPIO}
+    )
+endif()
+
 # We use TinyUSB directly (CDC + HID), so we don't link pico_stdio_usb.
 # If you want UART stdio for debugging, enable it in your project and avoid UART0 if it is used for I-Bus.
 pico_add_extra_outputs(ibus_pico_bridge)

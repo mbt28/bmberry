@@ -15,6 +15,8 @@
 #include "hardware/i2c.h"
 #include "hardware/uart.h"
 #include "hardware/gpio.h"
+#include "hardware/pio.h"
+#include "hardware/pio_instructions.h"
 
 #include "bsp/board.h"
 #include "tusb.h"
@@ -74,6 +76,12 @@ void csync_run(void);
 #endif
 #ifndef IBUS_PICO_VIDEO_GPIO_ACTIVE_LEVEL
 #define IBUS_PICO_VIDEO_GPIO_ACTIVE_LEVEL 1
+#endif
+#ifndef IBUS_PICO_VIDEO_INPUT_GPIO
+#define IBUS_PICO_VIDEO_INPUT_GPIO (-1)
+#endif
+#ifndef IBUS_PICO_TJA1020_EN_GPIO
+#define IBUS_PICO_TJA1020_EN_GPIO 20
 #endif
 
 // Enable/disable verbose logging over USB CDC.
@@ -135,6 +143,87 @@ static void log_prefix(void)
 
 static void ibus_i2c_mode_bmw(void);
 static void ibus_i2c_mode_tv(void);
+
+// ---------------- PIO video input inversion ----------------
+
+#if (IBUS_PICO_VIDEO_GPIO >= 0) && (IBUS_PICO_VIDEO_INPUT_GPIO >= 0)
+static uint16_t video_invert_program_instructions[5];
+static struct pio_program video_invert_program = {
+    .instructions = video_invert_program_instructions,
+    .length = 5,
+    .origin = -1,
+};
+
+static PIO video_pio = pio1;
+static int video_sm = -1;
+static int video_offset = -1;
+static bool video_pio_running = false;
+static bool video_program_built = false;
+
+static bool video_pio_init(void)
+{
+    if (video_sm >= 0 && video_offset >= 0) {
+        return true;
+    }
+
+    if (!video_program_built) {
+        video_invert_program_instructions[0] = pio_encode_jmp_pin(3);
+        video_invert_program_instructions[1] = pio_encode_set(pio_pins, 1);
+        video_invert_program_instructions[2] = pio_encode_jmp(0);
+        video_invert_program_instructions[3] = pio_encode_set(pio_pins, 0);
+        video_invert_program_instructions[4] = pio_encode_jmp(0);
+        video_program_built = true;
+    }
+
+    video_sm = pio_claim_unused_sm(video_pio, false);
+    if (video_sm < 0) {
+        return false;
+    }
+
+    video_offset = pio_add_program(video_pio, &video_invert_program);
+    if (video_offset < 0) {
+        return false;
+    }
+
+    pio_sm_config c = pio_get_default_sm_config();
+    sm_config_set_wrap(&c, video_offset + 0, video_offset + 4);
+    sm_config_set_set_pins(&c, (uint)IBUS_PICO_VIDEO_GPIO, 1);
+    sm_config_set_jmp_pin(&c, (uint)IBUS_PICO_VIDEO_INPUT_GPIO);
+
+    pio_gpio_init(video_pio, (uint)IBUS_PICO_VIDEO_GPIO);
+    pio_sm_set_consecutive_pindirs(video_pio, video_sm, (uint)IBUS_PICO_VIDEO_GPIO, 1, true);
+
+    gpio_init((uint)IBUS_PICO_VIDEO_INPUT_GPIO);
+    gpio_disable_pulls((uint)IBUS_PICO_VIDEO_INPUT_GPIO);
+    gpio_set_dir((uint)IBUS_PICO_VIDEO_INPUT_GPIO, GPIO_IN);
+
+    pio_sm_init(video_pio, video_sm, video_offset, &c);
+    return true;
+}
+
+static void video_pio_start_invert(void)
+{
+    if (!video_pio_init()) {
+        return;
+    }
+
+    pio_gpio_init(video_pio, (uint)IBUS_PICO_VIDEO_GPIO);
+    pio_sm_set_enabled(video_pio, video_sm, true);
+    video_pio_running = true;
+}
+
+static void video_pio_stop_and_force_high(void)
+{
+    if (video_sm >= 0 && video_pio_running) {
+        pio_sm_set_enabled(video_pio, video_sm, false);
+        video_pio_running = false;
+    }
+
+    gpio_set_function((uint)IBUS_PICO_VIDEO_GPIO, GPIO_FUNC_SIO);
+    gpio_set_dir((uint)IBUS_PICO_VIDEO_GPIO, GPIO_OUT);
+    gpio_put((uint)IBUS_PICO_VIDEO_GPIO, 1);
+}
+#endif
 
 // Drive the optional video GPIO according to requested on/off state.
 static void ibus_video_gpio_set(bool on)
@@ -227,6 +316,29 @@ static void optional_video_gpio_init(void)
     gpio_set_dir((uint)IBUS_PICO_VIDEO_GPIO, GPIO_OUT);
     ibus_video_gpio_set(false);
 #endif
+#if (IBUS_PICO_VIDEO_INPUT_GPIO >= 0)
+    gpio_init((uint)IBUS_PICO_VIDEO_INPUT_GPIO);
+    gpio_disable_pulls((uint)IBUS_PICO_VIDEO_INPUT_GPIO);
+    gpio_set_dir((uint)IBUS_PICO_VIDEO_INPUT_GPIO, GPIO_IN);
+#endif
+}
+
+static void tja1020_en_gpio_init(void)
+{
+#if (IBUS_PICO_TJA1020_EN_GPIO >= 0)
+    gpio_init((uint)IBUS_PICO_TJA1020_EN_GPIO);
+    gpio_set_dir((uint)IBUS_PICO_TJA1020_EN_GPIO, GPIO_OUT);
+    gpio_put((uint)IBUS_PICO_TJA1020_EN_GPIO, 1);
+#endif
+}
+
+static void tja1020_en_gpio_set(bool enabled)
+{
+#if (IBUS_PICO_TJA1020_EN_GPIO >= 0)
+    gpio_put((uint)IBUS_PICO_TJA1020_EN_GPIO, enabled ? 1 : 0);
+#else
+    (void)enabled;
+#endif
 }
 
 // Simple I2C helper to set an external device into BMW mode.
@@ -261,7 +373,11 @@ static void ibus_i2c_mode_bmw(void)
     const uint8_t val = 0x0F;
     (void)ibus_i2c_write_bytes(0x39, &val, 1);
 
+#if (IBUS_PICO_VIDEO_GPIO >= 0) && (IBUS_PICO_VIDEO_INPUT_GPIO >= 0)
+    video_pio_start_invert();
+#else
     ibus_video_gpio_set(false);
+#endif
 }
 
 static void ibus_i2c_mode_tv(void)
@@ -275,7 +391,15 @@ static void ibus_i2c_mode_tv(void)
     const uint8_t cmd2[] = { 0x11, 0x73 };
     (void)ibus_i2c_write_bytes(0x45, cmd2, sizeof(cmd2));
 
+	// Shift image to rightest horizontal position.
+    const uint8_t cmd3[] = { 0x03, 0x34 };
+    (void)ibus_i2c_write_bytes(0x45, cmd3, sizeof(cmd3));
+
+#if (IBUS_PICO_VIDEO_GPIO >= 0) && (IBUS_PICO_VIDEO_INPUT_GPIO >= 0)
+    video_pio_stop_and_force_high();
+#else
     ibus_video_gpio_set(true);
+#endif
 }
 
 // Core1 entry point: run CSYNC generator
@@ -293,6 +417,7 @@ int main(void)
 
     ibus_uart_init();
     optional_video_gpio_init();
+    tja1020_en_gpio_init();
     multicore_launch_core1(core1_main);
     ibus_i2c_init();
     ibus_i2c_mode_bmw();
@@ -310,6 +435,8 @@ int main(void)
 #endif
 
     absolute_time_t last_rx_time = get_absolute_time();
+    absolute_time_t last_ibus_activity = last_rx_time;
+    bool tja_enabled = true;
 
     while (true) {
         // USB device task (CDC)
@@ -320,6 +447,11 @@ int main(void)
             uint8_t b = uart_getc(IBUS_PICO_UART_ID);
             ibus_append_byte(b);
             last_rx_time = get_absolute_time();
+            last_ibus_activity = last_rx_time;
+            if (!tja_enabled) {
+                tja1020_en_gpio_set(true);
+                tja_enabled = true;
+            }
         }
 
         // If we have buffered data and no new byte has arrived for a bit,
@@ -328,6 +460,14 @@ int main(void)
             int64_t idle_us = absolute_time_diff_us(last_rx_time, get_absolute_time());
             if (idle_us > (int64_t)IBUS_PICO_CHAR_TIMEOUT_US) {
                 ibus_process_messages();
+            }
+        }
+
+        if (tja_enabled) {
+            int64_t idle_us = absolute_time_diff_us(last_ibus_activity, get_absolute_time());
+            if (idle_us > (int64_t)(60 * 1000 * 1000)) {
+                tja1020_en_gpio_set(false);
+                tja_enabled = false;
             }
         }
 
