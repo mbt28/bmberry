@@ -21,6 +21,16 @@ It does not modify the parent project. It only:
 - Local config persistence in `config.json`
 - Default log file in `$HOME/.config/cockpit/ibus.log`
 
+## Screenshots
+
+Main screen:
+
+![Cockpit main screen](screenshots/main_screen.png)
+
+Settings:
+
+![Cockpit settings](screenshots/settings.png)
+
 ## Run
 
 Install GUI-designer dependencies once if the local `.venv` is missing packages:
