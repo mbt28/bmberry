@@ -1,0 +1,254 @@
+<?xml version='1.0' encoding='utf-8'?>
+<interface version="1.5" author="Codex">
+  <project />
+  <object class="tk.Frame" id="radio_frame" named="True">
+    <property name="background">#111111</property>
+    <property name="padx">8</property>
+    <property name="pady">8</property>
+    <layout manager="pack">
+      <property name="fill">both</property>
+      <property name="expand">true</property>
+    </layout>
+    <containerlayout manager="grid">
+      <property type="row" id="0" name="weight">1</property>
+      <property type="col" id="0" name="weight">1</property>
+    </containerlayout>
+    <child>
+      <object class="tk.Frame" id="radio_screen" named="True">
+        <property name="background">#89959b</property>
+        <property name="height">234</property>
+        <property name="width">400</property>
+        <layout manager="grid">
+          <property name="row">0</property>
+          <property name="column">0</property>
+          <property name="sticky">nsew</property>
+        </layout>
+        <containerlayout manager="place" />
+        <child>
+          <object class="tk.Canvas" id="radio_canvas" named="True">
+            <property name="background">#1d2f38</property>
+            <property name="height">234</property>
+            <property name="highlightthickness">0</property>
+            <property name="width">400</property>
+            <layout manager="place">
+              <property name="x">0</property>
+              <property name="y">0</property>
+              <property name="width">400</property>
+              <property name="height">234</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="tk.Frame" id="radio_title_view" named="True">
+            <property name="background">#89959b</property>
+            <property name="borderwidth">2</property>
+            <property name="height">234</property>
+            <property name="relief">solid</property>
+            <property name="width">400</property>
+            <layout manager="place">
+              <property name="x">0</property>
+              <property name="y">0</property>
+              <property name="width">400</property>
+              <property name="height">234</property>
+            </layout>
+            <containerlayout manager="place" />
+            <child>
+              <object class="tk.Frame" id="radio_title_header" named="True">
+                <property name="background">#87969d</property>
+                <property name="borderwidth">2</property>
+                <property name="height">78</property>
+                <property name="relief">solid</property>
+                <property name="width">400</property>
+                <layout manager="place">
+                  <property name="x">0</property>
+                  <property name="y">0</property>
+                  <property name="width">400</property>
+                  <property name="height">78</property>
+                </layout>
+                <containerlayout manager="place" />
+                <child>
+                  <object class="tk.Label" id="radio_source_box_1" named="True">
+                    <property name="anchor">center</property>
+                    <property name="background">#dcecf1</property>
+                    <property name="borderwidth">1</property>
+                    <property name="foreground">#111111</property>
+                    <property name="relief">solid</property>
+                    <property name="text" translatable="yes">FMA</property>
+                    <layout manager="place">
+                      <property name="x">0</property>
+                      <property name="y">0</property>
+                      <property name="width">66</property>
+                      <property name="height">26</property>
+                    </layout>
+                  </object>
+                </child>
+                <child>
+                  <object class="tk.Label" id="radio_source_box_2" named="True">
+                    <property name="anchor">center</property>
+                    <property name="background">#dcecf1</property>
+                    <property name="borderwidth">1</property>
+                    <property name="foreground">#111111</property>
+                    <property name="relief">solid</property>
+                    <property name="text" translatable="yes"></property>
+                    <layout manager="place">
+                      <property name="x">0</property>
+                      <property name="y">26</property>
+                      <property name="width">66</property>
+                      <property name="height">26</property>
+                    </layout>
+                  </object>
+                </child>
+                <child>
+                  <object class="tk.Label" id="radio_source_box_3" named="True">
+                    <property name="anchor">center</property>
+                    <property name="background">#dcecf1</property>
+                    <property name="borderwidth">1</property>
+                    <property name="foreground">#111111</property>
+                    <property name="relief">solid</property>
+                    <property name="text" translatable="yes"></property>
+                    <layout manager="place">
+                      <property name="x">0</property>
+                      <property name="y">52</property>
+                      <property name="width">66</property>
+                      <property name="height">26</property>
+                    </layout>
+                  </object>
+                </child>
+                <child>
+                  <object class="tk.Label" id="radio_title_text_label" named="True">
+                    <property name="anchor">center</property>
+                    <property name="background">#87969d</property>
+                    <property name="foreground">#f28a60</property>
+                    <property name="text" translatable="yes">FM 105.1</property>
+                    <layout manager="place">
+                      <property name="x">74</property>
+                      <property name="y">2</property>
+                      <property name="width">234</property>
+                      <property name="height">48</property>
+                    </layout>
+                  </object>
+                </child>
+                <child>
+                  <object class="tk.Label" id="radio_tp_station_label" named="True">
+                    <property name="anchor">center</property>
+                    <property name="background">#87969d</property>
+                    <property name="foreground">#f28a60</property>
+                    <property name="text" translatable="yes">TP-Station: FM 105.1</property>
+                    <layout manager="place">
+                      <property name="x">74</property>
+                      <property name="y">48</property>
+                      <property name="width">234</property>
+                      <property name="height">24</property>
+                    </layout>
+                  </object>
+                </child>
+                <child>
+                  <object class="tk.Label" id="radio_right_box_1" named="True">
+                    <property name="anchor">center</property>
+                    <property name="background">#eef3f7</property>
+                    <property name="borderwidth">1</property>
+                    <property name="foreground">#111111</property>
+                    <property name="relief">solid</property>
+                    <property name="text" translatable="yes">TP</property>
+                    <layout manager="place">
+                      <property name="x">316</property>
+                      <property name="y">0</property>
+                      <property name="width">84</property>
+                      <property name="height">26</property>
+                    </layout>
+                  </object>
+                </child>
+                <child>
+                  <object class="tk.Label" id="radio_right_box_2" named="True">
+                    <property name="anchor">center</property>
+                    <property name="background">#eef3f7</property>
+                    <property name="borderwidth">1</property>
+                    <property name="foreground">#111111</property>
+                    <property name="relief">solid</property>
+                    <property name="text" translatable="yes">RDS</property>
+                    <layout manager="place">
+                      <property name="x">316</property>
+                      <property name="y">26</property>
+                      <property name="width">84</property>
+                      <property name="height">26</property>
+                    </layout>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="tk.Label" id="radio_body_subtitle_label" named="True">
+                <property name="anchor">w</property>
+                <property name="background">#89959b</property>
+                <property name="foreground">#1f2e34</property>
+                <property name="text" translatable="yes">Stations / Info</property>
+                <layout manager="place">
+                  <property name="x">24</property>
+                  <property name="y">96</property>
+                  <property name="width">352</property>
+                  <property name="height">28</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="tk.Label" id="radio_body_text_label" named="True">
+                <property name="anchor">w</property>
+                <property name="background">#89959b</property>
+                <property name="foreground">#1f2e34</property>
+                <property name="text" translatable="yes">Radio text</property>
+                <layout manager="place">
+                  <property name="x">24</property>
+                  <property name="y">128</property>
+                  <property name="width">352</property>
+                  <property name="height">28</property>
+                </layout>
+              </object>
+            </child>
+            <child>
+              <object class="tk.Frame" id="radio_footer_bar" named="True">
+                <property name="background">#f5f2e9</property>
+                <property name="height">25</property>
+                <property name="width">400</property>
+                <layout manager="place">
+                  <property name="x">0</property>
+                  <property name="y">209</property>
+                  <property name="width">400</property>
+                  <property name="height">25</property>
+                </layout>
+                <containerlayout manager="place" />
+                <child>
+                  <object class="tk.Label" id="radio_date_label" named="True">
+                    <property name="anchor">w</property>
+                    <property name="background">#f5f2e9</property>
+                    <property name="foreground">#1d1d1d</property>
+                    <property name="text" translatable="yes">04/29/2026</property>
+                    <layout manager="place">
+                      <property name="x">14</property>
+                      <property name="y">0</property>
+                      <property name="width">150</property>
+                      <property name="height">25</property>
+                    </layout>
+                  </object>
+                </child>
+                <child>
+                  <object class="tk.Label" id="radio_time_label" named="True">
+                    <property name="anchor">e</property>
+                    <property name="background">#f5f2e9</property>
+                    <property name="foreground">#1d1d1d</property>
+                    <property name="text" translatable="yes">15:46:00</property>
+                    <layout manager="place">
+                      <property name="x">248</property>
+                      <property name="y">0</property>
+                      <property name="width">140</property>
+                      <property name="height">25</property>
+                    </layout>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

@@ -1,0 +1,590 @@
+<?xml version='1.0' encoding='utf-8'?>
+<interface version="1.5" author="Codex">
+  <project />
+  <object class="ttk.Frame" id="main_frame" named="True">
+    <property name="padding">18</property>
+    <property name="style">Root.TFrame</property>
+    <layout manager="pack">
+      <property name="fill">both</property>
+      <property name="expand">true</property>
+    </layout>
+    <containerlayout manager="grid">
+      <property type="row" id="1" name="weight">1</property>
+      <property type="col" id="0" name="weight">1</property>
+    </containerlayout>
+    <child>
+      <object class="ttk.Frame" id="header_frame">
+        <property name="style">Root.TFrame</property>
+        <layout manager="grid">
+          <property name="row">0</property>
+          <property name="column">0</property>
+          <property name="sticky">ew</property>
+        </layout>
+        <containerlayout manager="grid">
+          <property type="col" id="0" name="weight">1</property>
+        </containerlayout>
+        <child>
+          <object class="ttk.Label" id="title_label">
+            <property name="style">Hero.TLabel</property>
+            <property name="text" translatable="yes">Cockpit</property>
+            <layout manager="grid">
+              <property name="row">0</property>
+              <property name="column">0</property>
+              <property name="sticky">w</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Label" id="subtitle_label">
+            <property name="style">Meta.TLabel</property>
+            <property name="text" translatable="yes">Linux GUI frontend for the parent BMW I-Bus bridge</property>
+            <layout manager="grid">
+              <property name="row">1</property>
+              <property name="column">0</property>
+              <property name="sticky">w</property>
+              <property name="pady">2 16</property>
+            </layout>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Frame" id="body_frame">
+        <property name="style">Root.TFrame</property>
+        <layout manager="grid">
+          <property name="row">1</property>
+          <property name="column">0</property>
+          <property name="sticky">nsew</property>
+        </layout>
+        <containerlayout manager="grid">
+          <property type="row" id="0" name="weight">1</property>
+          <property type="col" id="0" name="weight">1</property>
+        </containerlayout>
+        <child>
+          <object class="ttk.Frame" id="console_wrap">
+            <property name="style">Panel.TFrame</property>
+            <layout manager="grid">
+              <property name="row">0</property>
+              <property name="column">0</property>
+              <property name="sticky">nsew</property>
+            </layout>
+            <containerlayout manager="grid">
+              <property type="row" id="1" name="weight">1</property>
+              <property type="col" id="0" name="weight">1</property>
+            </containerlayout>
+            <child>
+              <object class="ttk.Frame" id="console_top">
+                <property name="padding">16</property>
+                <property name="style">Panel.TFrame</property>
+                <layout manager="grid">
+                  <property name="row">0</property>
+                  <property name="column">0</property>
+                  <property name="sticky">ew</property>
+                </layout>
+                <containerlayout manager="grid">
+                  <property type="col" id="0" name="weight">1</property>
+                </containerlayout>
+                <child>
+                  <object class="ttk.Frame" id="actions_frame">
+                    <property name="style">Panel.TFrame</property>
+                    <layout manager="grid">
+                      <property name="row">0</property>
+                      <property name="column">0</property>
+                      <property name="columnspan">2</property>
+                      <property name="sticky">ew</property>
+                      <property name="pady">0 10</property>
+                    </layout>
+                    <containerlayout manager="grid">
+                      <property type="col" id="0" name="weight">1</property>
+                      <property type="col" id="1" name="weight">1</property>
+                      <property type="col" id="2" name="weight">1</property>
+                      <property type="col" id="3" name="weight">1</property>
+                      <property type="col" id="4" name="weight">1</property>
+                    </containerlayout>
+                    <child>
+                      <object class="ttk.Button" id="bridge_button" named="True">
+                        <property name="style">Action.TButton</property>
+                        <property name="textvariable">bridge_button_var</property>
+                        <layout manager="grid">
+                          <property name="row">0</property>
+                          <property name="column">0</property>
+                          <property name="sticky">ew</property>
+                          <property name="padx">0 6</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="ttk.Button" id="radio_button" named="True">
+                        <property name="style">Quiet.TButton</property>
+                        <property name="text" translatable="yes">RADIO</property>
+                        <layout manager="grid">
+                          <property name="row">0</property>
+                          <property name="column">1</property>
+                          <property name="sticky">ew</property>
+                          <property name="padx">0 6</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="ttk.Button" id="settings_button" named="True">
+                        <property name="style">Quiet.TButton</property>
+                        <property name="text" translatable="yes">Settings</property>
+                        <layout manager="grid">
+                          <property name="row">0</property>
+                          <property name="column">2</property>
+                          <property name="sticky">ew</property>
+                          <property name="padx">0 6</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="ttk.Button" id="about_button" named="True">
+                        <property name="style">Quiet.TButton</property>
+                        <property name="text" translatable="yes">About</property>
+                        <layout manager="grid">
+                          <property name="row">0</property>
+                          <property name="column">3</property>
+                          <property name="sticky">ew</property>
+                          <property name="padx">0 6</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="ttk.Button" id="clear_console_button" named="True">
+                        <property name="style">Quiet.TButton</property>
+                        <property name="text" translatable="yes">Clear Console</property>
+                        <layout manager="grid">
+                          <property name="row">0</property>
+                          <property name="column">4</property>
+                          <property name="sticky">ew</property>
+                        </layout>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="ttk.Label" id="live_console_label">
+                    <property name="style">Section.TLabel</property>
+                    <property name="text" translatable="yes">Live Console</property>
+                    <layout manager="grid">
+                      <property name="row">1</property>
+                      <property name="column">0</property>
+                      <property name="sticky">w</property>
+                    </layout>
+                  </object>
+                </child>
+                <child>
+                  <object class="ttk.Button" id="copy_message_button" named="True">
+                    <property name="style">Quiet.TButton</property>
+                    <property name="text" translatable="yes">Copy Message</property>
+                    <layout manager="grid">
+                      <property name="row">1</property>
+                      <property name="column">1</property>
+                      <property name="sticky">e</property>
+                      <property name="padx">0 8</property>
+                    </layout>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="ttk.Frame" id="console_table_frame" named="True">
+                <property name="padding">16 0 16 16</property>
+                <property name="style">Panel.TFrame</property>
+                <layout manager="grid">
+                  <property name="row">1</property>
+                  <property name="column">0</property>
+                  <property name="sticky">nsew</property>
+                </layout>
+                <containerlayout manager="grid">
+                  <property type="row" id="0" name="weight">1</property>
+                  <property type="col" id="0" name="weight">1</property>
+                </containerlayout>
+              </object>
+            </child>
+            <child>
+              <object class="ttk.Labelframe" id="composer_card">
+                <property name="padding">16</property>
+                <property name="style">Card.TLabelframe</property>
+                <property name="text" translatable="yes">IBus Composer</property>
+                <layout manager="grid">
+                  <property name="row">2</property>
+                  <property name="column">0</property>
+                  <property name="sticky">ew</property>
+                  <property name="padx">16</property>
+                  <property name="pady">0 16</property>
+                </layout>
+                <containerlayout manager="grid">
+                  <property type="col" id="0" name="weight">1</property>
+                </containerlayout>
+                <child>
+                  <object class="ttk.Label" id="raw_frame_label">
+                    <property name="style">Section.TLabel</property>
+                    <property name="text" translatable="yes">Raw frame</property>
+                    <layout manager="grid">
+                      <property name="row">0</property>
+                      <property name="column">0</property>
+                      <property name="sticky">w</property>
+                    </layout>
+                  </object>
+                </child>
+                <child>
+                  <object class="ttk.Frame" id="raw_row">
+                    <property name="style">Panel.TFrame</property>
+                    <layout manager="grid">
+                      <property name="row">1</property>
+                      <property name="column">0</property>
+                      <property name="sticky">ew</property>
+                      <property name="pady">4 12</property>
+                    </layout>
+                    <containerlayout manager="grid">
+                      <property type="col" id="0" name="weight">1</property>
+                    </containerlayout>
+                    <child>
+                      <object class="ttk.Entry" id="tx_raw_entry" named="True">
+                        <property name="textvariable">tx_raw_var</property>
+                        <layout manager="grid">
+                          <property name="row">0</property>
+                          <property name="column">0</property>
+                          <property name="sticky">ew</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="ttk.Button" id="send_raw_button" named="True">
+                        <property name="style">Action.TButton</property>
+                        <property name="text" translatable="yes">Send Raw Frame</property>
+                        <layout manager="grid">
+                          <property name="row">0</property>
+                          <property name="column">1</property>
+                          <property name="padx">8 0</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="ttk.Button" id="preset_settings_button" named="True">
+                        <property name="style">Quiet.TButton</property>
+                        <property name="text" translatable="yes">Preset Settings</property>
+                        <layout manager="grid">
+                          <property name="row">0</property>
+                          <property name="column">2</property>
+                          <property name="padx">8 0</property>
+                        </layout>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="ttk.Frame" id="preset_row">
+                    <property name="style">Panel.TFrame</property>
+                    <layout manager="grid">
+                      <property name="row">2</property>
+                      <property name="column">0</property>
+                      <property name="sticky">ew</property>
+                      <property name="pady">0 12</property>
+                    </layout>
+                    <containerlayout manager="grid">
+                      <property type="col" id="0" name="weight">1</property>
+                      <property type="col" id="1" name="weight">1</property>
+                      <property type="col" id="2" name="weight">1</property>
+                      <property type="col" id="3" name="weight">1</property>
+                      <property type="col" id="4" name="weight">1</property>
+                    </containerlayout>
+                    <child>
+                      <object class="ttk.Button" id="preset_button_1" named="True">
+                        <property name="style">Quiet.TButton</property>
+                        <property name="text" translatable="yes">Preset 1</property>
+                        <layout manager="grid">
+                          <property name="row">0</property>
+                          <property name="column">0</property>
+                          <property name="sticky">ew</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="ttk.Button" id="preset_button_2" named="True">
+                        <property name="style">Quiet.TButton</property>
+                        <property name="text" translatable="yes">Preset 2</property>
+                        <layout manager="grid">
+                          <property name="row">0</property>
+                          <property name="column">1</property>
+                          <property name="sticky">ew</property>
+                          <property name="padx">8 0</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="ttk.Button" id="preset_button_3" named="True">
+                        <property name="style">Quiet.TButton</property>
+                        <property name="text" translatable="yes">Preset 3</property>
+                        <layout manager="grid">
+                          <property name="row">0</property>
+                          <property name="column">2</property>
+                          <property name="sticky">ew</property>
+                          <property name="padx">8 0</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="ttk.Button" id="preset_button_4" named="True">
+                        <property name="style">Quiet.TButton</property>
+                        <property name="text" translatable="yes">Preset 4</property>
+                        <layout manager="grid">
+                          <property name="row">0</property>
+                          <property name="column">3</property>
+                          <property name="sticky">ew</property>
+                          <property name="padx">8 0</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="ttk.Button" id="preset_button_5" named="True">
+                        <property name="style">Quiet.TButton</property>
+                        <property name="text" translatable="yes">Preset 5</property>
+                        <layout manager="grid">
+                          <property name="row">0</property>
+                          <property name="column">4</property>
+                          <property name="sticky">ew</property>
+                          <property name="padx">8 0</property>
+                        </layout>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="ttk.Frame" id="tx_helper">
+                    <property name="style">Panel.TFrame</property>
+                    <layout manager="grid">
+                      <property name="row">3</property>
+                      <property name="column">0</property>
+                      <property name="sticky">ew</property>
+                    </layout>
+                    <containerlayout manager="grid">
+                      <property type="col" id="0" name="weight">1</property>
+                      <property type="col" id="1" name="weight">1</property>
+                      <property type="col" id="2" name="weight">1</property>
+                      <property type="col" id="3" name="weight">1</property>
+                    </containerlayout>
+                    <child>
+                      <object class="ttk.Frame" id="sender_field">
+                        <property name="style">Panel.TFrame</property>
+                        <layout manager="grid">
+                          <property name="row">0</property>
+                          <property name="column">0</property>
+                          <property name="sticky">ew</property>
+                        </layout>
+                        <containerlayout manager="grid">
+                          <property type="col" id="0" name="weight">1</property>
+                        </containerlayout>
+                        <child>
+                          <object class="ttk.Label" id="sender_label">
+                            <property name="style">Section.TLabel</property>
+                            <property name="text" translatable="yes">Sender</property>
+                            <layout manager="grid">
+                              <property name="row">0</property>
+                              <property name="column">0</property>
+                              <property name="sticky">w</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="ttk.Entry" id="tx_sender_entry" named="True">
+                            <property name="textvariable">tx_sender_var</property>
+                            <layout manager="grid">
+                              <property name="row">1</property>
+                              <property name="column">0</property>
+                              <property name="sticky">ew</property>
+                              <property name="pady">4 0</property>
+                            </layout>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="ttk.Frame" id="receiver_field">
+                        <property name="style">Panel.TFrame</property>
+                        <layout manager="grid">
+                          <property name="row">0</property>
+                          <property name="column">1</property>
+                          <property name="sticky">ew</property>
+                          <property name="padx">8 0</property>
+                        </layout>
+                        <containerlayout manager="grid">
+                          <property type="col" id="0" name="weight">1</property>
+                        </containerlayout>
+                        <child>
+                          <object class="ttk.Label" id="receiver_label">
+                            <property name="style">Section.TLabel</property>
+                            <property name="text" translatable="yes">Receiver</property>
+                            <layout manager="grid">
+                              <property name="row">0</property>
+                              <property name="column">0</property>
+                              <property name="sticky">w</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="ttk.Entry" id="tx_receiver_entry" named="True">
+                            <property name="textvariable">tx_receiver_var</property>
+                            <layout manager="grid">
+                              <property name="row">1</property>
+                              <property name="column">0</property>
+                              <property name="sticky">ew</property>
+                              <property name="pady">4 0</property>
+                            </layout>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="ttk.Frame" id="message_field">
+                        <property name="style">Panel.TFrame</property>
+                        <layout manager="grid">
+                          <property name="row">0</property>
+                          <property name="column">2</property>
+                          <property name="sticky">ew</property>
+                          <property name="padx">8 0</property>
+                        </layout>
+                        <containerlayout manager="grid">
+                          <property type="col" id="0" name="weight">1</property>
+                        </containerlayout>
+                        <child>
+                          <object class="ttk.Label" id="message_label">
+                            <property name="style">Section.TLabel</property>
+                            <property name="text" translatable="yes">Message</property>
+                            <layout manager="grid">
+                              <property name="row">0</property>
+                              <property name="column">0</property>
+                              <property name="sticky">w</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="ttk.Entry" id="tx_message_entry" named="True">
+                            <property name="textvariable">tx_message_var</property>
+                            <layout manager="grid">
+                              <property name="row">1</property>
+                              <property name="column">0</property>
+                              <property name="sticky">ew</property>
+                              <property name="pady">4 0</property>
+                            </layout>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="ttk.Frame" id="data_field">
+                        <property name="style">Panel.TFrame</property>
+                        <layout manager="grid">
+                          <property name="row">0</property>
+                          <property name="column">3</property>
+                          <property name="sticky">ew</property>
+                          <property name="padx">8 0</property>
+                        </layout>
+                        <containerlayout manager="grid">
+                          <property type="col" id="0" name="weight">1</property>
+                        </containerlayout>
+                        <child>
+                          <object class="ttk.Label" id="data_label">
+                            <property name="style">Section.TLabel</property>
+                            <property name="text" translatable="yes">Data bytes</property>
+                            <layout manager="grid">
+                              <property name="row">0</property>
+                              <property name="column">0</property>
+                              <property name="sticky">w</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="ttk.Entry" id="tx_data_entry" named="True">
+                            <property name="textvariable">tx_data_var</property>
+                            <layout manager="grid">
+                              <property name="row">1</property>
+                              <property name="column">0</property>
+                              <property name="sticky">ew</property>
+                              <property name="pady">4 0</property>
+                            </layout>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="ttk.Frame" id="preview_row">
+                    <property name="style">Panel.TFrame</property>
+                    <layout manager="grid">
+                      <property name="row">4</property>
+                      <property name="column">0</property>
+                      <property name="sticky">ew</property>
+                      <property name="pady">12 0</property>
+                    </layout>
+                    <containerlayout manager="grid">
+                      <property type="col" id="0" name="weight">1</property>
+                    </containerlayout>
+                    <child>
+                      <object class="ttk.Label" id="built_frame_label">
+                        <property name="style">Section.TLabel</property>
+                        <property name="text" translatable="yes">Built frame</property>
+                        <layout manager="grid">
+                          <property name="row">0</property>
+                          <property name="column">0</property>
+                          <property name="sticky">w</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="ttk.Entry" id="tx_frame_entry" named="True">
+                        <property name="state">readonly</property>
+                        <property name="textvariable">tx_frame_var</property>
+                        <layout manager="grid">
+                          <property name="row">1</property>
+                          <property name="column">0</property>
+                          <property name="sticky">ew</property>
+                          <property name="pady">4 0</property>
+                        </layout>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="ttk.Frame" id="built_actions">
+                        <property name="style">Panel.TFrame</property>
+                        <layout manager="grid">
+                          <property name="row">1</property>
+                          <property name="column">1</property>
+                          <property name="sticky">e</property>
+                          <property name="padx">8 0</property>
+                        </layout>
+                        <containerlayout manager="grid" />
+                        <child>
+                          <object class="ttk.Button" id="build_into_raw_button" named="True">
+                            <property name="style">Quiet.TButton</property>
+                            <property name="text" translatable="yes">Build Into Raw</property>
+                            <layout manager="grid">
+                              <property name="row">0</property>
+                              <property name="column">0</property>
+                              <property name="padx">0 6</property>
+                            </layout>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="ttk.Button" id="send_built_button" named="True">
+                            <property name="style">Quiet.TButton</property>
+                            <property name="text" translatable="yes">Send Built Frame</property>
+                            <layout manager="grid">
+                              <property name="row">0</property>
+                              <property name="column">1</property>
+                            </layout>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

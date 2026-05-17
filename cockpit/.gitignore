@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+.venv/
+logs/
+config.json
+.agents/
+.codex
+Log/
+*.log
+ibus_linux_test
+EOF
+GROUP=input
+KERNEL==uinput,
+MODE=0660,
+ui/radio_test.ui
