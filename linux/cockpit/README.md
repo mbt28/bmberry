@@ -1,6 +1,6 @@
 # Cockpit
 
-`Cockpit` is a Linux desktop GUI for the BMW I-Bus bridge code in the parent folder.
+`Cockpit` is a Linux desktop GUI for the BMW I-Bus bridge backend in the parent folder.
 
 It does not modify the parent project. It only:
 
@@ -101,13 +101,13 @@ radio_footer_bar radio_date_label radio_time_label
 ## Notes
 
 - The backend still needs access to `/dev/uinput` and the selected serial device.
-- Build the parent backend separately before using the GUI:
+- Build the parent Linux backend separately before using the GUI:
 
 ```bash
 cd ..
-make -f Makefile.linux
+make
 ```
 
 - With the permissions described in `README-permissions.md`, `Cockpit` can run the backend as a normal user.
-- `Cockpit` itself stays in the current folder and treats the parent folder as an external source/backend.
+- `Cockpit` itself stays in the current folder and treats the parent `linux/` folder as the backend directory.
 - Bridge settings, including the backend path, serial device, hijack/video mode, trace level, and log output path, are configured from the Settings button.

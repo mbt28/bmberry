@@ -9,15 +9,15 @@ project(pico2ibus C CXX ASM)
 pico_sdk_init()
 
 add_executable(ibus_pico_bridge
-    pico/main_pico.c
-    pico/usb_descriptors.c
-    pico/csync.c
-    ibus_protocol.c
+    main_pico.c
+    usb_descriptors.c
+    csync.c
+    ../ibus_protocol.c
 )
 
 target_include_directories(ibus_pico_bridge PRIVATE
     ${CMAKE_CURRENT_LIST_DIR}
-    ${CMAKE_CURRENT_LIST_DIR}/pico
+    ${CMAKE_CURRENT_LIST_DIR}/..
 )
 
 target_link_libraries(ibus_pico_bridge

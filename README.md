@@ -2,14 +2,14 @@
 
 This repo contains a shared BMW I-Bus decoder (`ibus_protocol.c/.h`) with two front-ends:
 
-- **Linux**: reads from UART, sends key events via **uinput** (`main_linux.c`)
+- **Linux**: reads from UART, sends key events via **uinput** (`linux/main_linux.c`)
 - **Raspberry Pi Pico 2**: reads I-Bus from **UART (9600 8E1)** and exposes a **USB HID keyboard** + **USB CDC serial** for logs (`pico/main_pico.c`). It can also interract with Video Module over I2C to enable RGB input. Another PIO program runs on Core1 which converts VGA Horizontal/Vertical Syncs to Composite Sync. 
 
 ## Linux build
 
 ```bash
-make -f Makefile.linux
-sudo ./ibus_linux -d /dev/ttyUSB0 -h AUX -v CTS -t 15
+make -C linux
+sudo ./linux/ibus_linux -d /dev/ttyUSB0 -h AUX -v CTS -t 15
 ```
 
 > Note: `/dev/uinput` must be accessible (usually requires root, or udev permissions).
@@ -24,7 +24,7 @@ Build:
 ```bash
 mkdir build-pico
 cd build-pico
-cmake .. -DPICO_BOARD=pico2
+cmake ../pico -DPICO_BOARD=pico2
 cmake --build . -j
 ```
 
@@ -59,7 +59,7 @@ set at compile time:
 
 Example:
 ```bash
-cmake .. -DPICO_BOARD=pico2 -DCMAKE_C_FLAGS=\"-DIBUS_PICO_VIDEO_GPIO=2\"
+cmake ../pico -DPICO_BOARD=pico2 -DCMAKE_C_FLAGS=\"-DIBUS_PICO_VIDEO_GPIO=2\"
 ```
 
 ### Notes
