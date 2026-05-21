@@ -13,3 +13,4 @@ GROUP=input
 KERNEL==uinput,
 MODE=0660,
 ui/radio_test.ui
+documents/
